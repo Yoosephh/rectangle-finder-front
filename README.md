@@ -1,8 +1,17 @@
 # React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Image](./src/assets/rectangle-finder.png "Image")
+Comandos básicos para o funcionamento do projeto (localmente):<br/>
+ * Clonar o repositório
+```bash
+git clone git@github.com:Yoosephh/rectangle-finder-front.git
+```
+* Baixar as dependências
+```bash
+npm i
+```
+* Executar o projeto:
+```bash
+npm run dev
+```
+Deploy: <br />
+https://rectangle-finder-front.vercel.app/
