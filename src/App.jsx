@@ -16,6 +16,7 @@ function App() {
   const [cols, setCols] = useState(5);
   const [tableData, setTableData] = useState(initialTableData)
   const [deboucedValue] = useDebounce(tableData, 500)
+  const [disabled, setDisabled] = useState(false);
 
   function handleAddRow() {
     setRows(rows + 1);
@@ -47,22 +48,27 @@ function App() {
       newData[rowIndex][colIndex] = value;
       setTableData(newData);
       target.select();
+      return
     }
     alert("Please, use only '0' or '1' for input values.")
   }
   
   async function handleSubmit() {
+    setDisabled(true);
     try {
       const response = await axios.post("https://rectangle-finder-back.onrender.com/rectangle", tableData)
       setArea(response.data)
+      setDisabled(false)
     } catch (err) {
       alert(err.response.data)
+      setDisabled(false)
     }
   }
 
   useEffect(()=> {
     handleSubmit()
   }, [deboucedValue])
+
   return (
     <Body>
       <Title>Rectangle Finder</Title>
@@ -73,6 +79,7 @@ function App() {
               {row.map((cell, colIndex) => (
                 <td key={colIndex}>
                   <TbInput
+                    disabled={disabled}
                     type="text"
                     value={cell}
                     onClick={e => e.target.select()}
@@ -86,15 +93,17 @@ function App() {
         </tbody>
       </table>
       <BtnContainer>
-        <Button4 onClick={handleAddRow}>Adicionar Linha</Button4>
-        <Button4 onClick={handleRemoveRow}>Remover Linha</Button4>
-        <Button4 onClick={handleAddCol}>Adicionar Coluna</Button4>
-        <Button4 onClick={handleRemoveCol}>Remover Coluna</Button4>
+        <Button4 disabled={disabled} onClick={handleAddRow}>Adicionar Linha</Button4>
+        <Button4 disabled={disabled} onClick={handleRemoveRow}>Remover Linha</Button4>
+        <Button4 disabled={disabled} onClick={handleAddCol}>Adicionar Coluna</Button4>
+        <Button4 disabled={disabled} onClick={handleRemoveCol}>Remover Coluna</Button4>
       </BtnContainer>
       <Area>
       {area && "Retângulo de maior área: " +  area}
       </Area>
-      <SubmitBtn onClick={handleSubmit}>
+      <SubmitBtn 
+      disabled={disabled}
+      onClick={handleSubmit}>
         Calcular maior retângulo
       </SubmitBtn>
     </Body>

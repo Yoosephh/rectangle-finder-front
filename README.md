@@ -13,6 +13,13 @@ npm i
 ```bash
 npm run dev
 ```
+
+Comandos para rodar a imagem da aplicação (Requer Docker instalado): <br />
+Em um terminal dentro da pasta do projeto, rodar o comando:
+```dockerfile
+docker-compose up --build
+```
+
 Deploy: <br />
 https://rectangle-finder-front.vercel.app/
 
