@@ -15,3 +15,6 @@ npm run dev
 ```
 Deploy: <br />
 https://rectangle-finder-front.vercel.app/
+
+AWS: <br />
+http://18.207.120.51
