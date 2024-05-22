@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 import styled from 'styled-components';
+import { useDebounce } from 'use-debounce';
 
 function App() {
   const initialTableData = [
@@ -9,11 +10,12 @@ function App() {
   ["1", "1", "1", "1", "1"],
   ["1", "0", "0", "1", "0"]
 ];
+
   const [area, setArea] = useState(null);
   const [rows, setRows] = useState(4);
   const [cols, setCols] = useState(5);
-  const [tableData, setTableData] = useState(initialTableData);
-
+  const [tableData, setTableData] = useState(initialTableData)
+  const [deboucedValue] = useDebounce(tableData, 500)
 
   function handleAddRow() {
     setRows(rows + 1);
@@ -31,7 +33,7 @@ function App() {
     setCols(cols + 1);
     setTableData(tableData.map(row => [...row, "0"]));
   }
-console.log(tableData)
+
   function handleRemoveCol() {
     if (cols > 1) {
       setCols(cols - 1);
@@ -39,24 +41,27 @@ console.log(tableData)
     }
   }
 
-  function handleChange ( rowIndex, colIndex, value) {
-  if (value === "" || value === "0" || value === "1") {
+  function handleChange ( rowIndex, colIndex, value, target) {
+  if (value === "0" || value === "1") {
       const newData = [...tableData];
       newData[rowIndex][colIndex] = value;
       setTableData(newData);
+      target.select();
     }
-
   }
-
+  
   async function handleSubmit() {
     try {
       const response = await axios.post("https://rectangle-finder-back.onrender.com/rectangle", tableData)
       setArea(response.data)
     } catch (err) {
-      console.log(err)
+      alert(err.response.data)
     }
   }
 
+  useEffect(()=> {
+    handleSubmit()
+  }, [deboucedValue])
   return (
     <Body>
       <Title>Rectangle Finder</Title>
@@ -69,7 +74,8 @@ console.log(tableData)
                   <TbInput
                     type="text"
                     value={cell}
-                    onChange={(e) => handleChange(rowIndex, colIndex, e.target.value)}
+                    onClick={e => e.target.select()}
+                    onChange={(e) => handleChange(rowIndex, colIndex, e.target.value, e.target)}
                     maxLength={1}
                   />
                 </td>
@@ -161,7 +167,8 @@ const Button4 = styled.button`
   display: none;
 }
 `
-const SubmitBtn = styled.button`
+
+const SubmitBtn = styled(Button4)`
 `
 const Area = styled.div`
 `
