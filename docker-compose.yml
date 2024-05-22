@@ -2,7 +2,7 @@
 services:
   frontend:
     image: myfrontend
-    build: front-end/
+    build: .
     container_name: myfrontend
     ports:
       - 80:80
