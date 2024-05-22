@@ -41,7 +41,7 @@ function App() {
 
   const handleChange = ( rowIndex, colIndex, value) => {
 
-    const re = /^[01""]+$/g;
+    const re = /^[01]+$/g;
     if(!re.test(value)) {
       return
     }
@@ -53,7 +53,7 @@ function App() {
 
   async function handleSubmit() {
     try {
-      const response = await axios.post("https://rectangle-finder-back.onrender.com/rectangle", tableData)
+      const response = await axios.post("https://18.207.113.190/rectangle", tableData)
       setArea(response.data)
     } catch (err) {
       console.log(err)
