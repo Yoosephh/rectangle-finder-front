@@ -1,6 +1,5 @@
-
 import axios from 'axios';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components';
 
 function App() {
@@ -14,6 +13,7 @@ function App() {
   const [rows, setRows] = useState(4);
   const [cols, setCols] = useState(5);
   const [tableData, setTableData] = useState(initialTableData);
+
 
   function handleAddRow() {
     setRows(rows + 1);
@@ -31,7 +31,7 @@ function App() {
     setCols(cols + 1);
     setTableData(tableData.map(row => [...row, "0"]));
   }
-
+console.log(tableData)
   function handleRemoveCol() {
     if (cols > 1) {
       setCols(cols - 1);
@@ -39,17 +39,14 @@ function App() {
     }
   }
 
-  const handleChange = ( rowIndex, colIndex, value) => {
-
-    const re = /^[01]+$/g;
-    if(!re.test(value)) {
-      return
+  function handleChange ( rowIndex, colIndex, value) {
+  if (value === "" || value === "0" || value === "1") {
+      const newData = [...tableData];
+      newData[rowIndex][colIndex] = value;
+      setTableData(newData);
     }
 
-    const newData = [...tableData];
-    newData[rowIndex][colIndex] = value;
-    setTableData(newData);
-  };
+  }
 
   async function handleSubmit() {
     try {
@@ -69,10 +66,11 @@ function App() {
             <tr key={rowIndex}>
               {row.map((cell, colIndex) => (
                 <td key={colIndex}>
-                  <input
+                  <TbInput
                     type="text"
                     value={cell}
                     onChange={(e) => handleChange(rowIndex, colIndex, e.target.value)}
+                    maxLength={1}
                   />
                 </td>
               ))}
@@ -101,6 +99,11 @@ flex-direction: column;
 align-items: center;
 gap: 20px;
 `
+const TbInput = styled.input`
+width: 35px;
+text-align: center;`
+
+
 const BtnContainer = styled.div`
   display: flex;
   gap: 5px;
