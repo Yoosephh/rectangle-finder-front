@@ -48,6 +48,7 @@ function App() {
       setTableData(newData);
       target.select();
     }
+    alert("Please, use only '0' or '1' for input values.")
   }
   
   async function handleSubmit() {
